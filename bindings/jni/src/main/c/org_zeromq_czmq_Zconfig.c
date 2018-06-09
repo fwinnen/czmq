@@ -45,6 +45,13 @@ Java_org_zeromq_czmq_Zconfig__1_1destroy (JNIEnv *env, jclass c, jlong self)
     zconfig_destroy ((zconfig_t **) &self);
 }
 
+JNIEXPORT jlong JNICALL
+Java_org_zeromq_czmq_Zconfig__1_1dup (JNIEnv *env, jclass c, jlong self)
+{
+    jlong dup_ = (jlong) (intptr_t) zconfig_dup ((zconfig_t *) (intptr_t) self);
+    return dup_;
+}
+
 JNIEXPORT jstring JNICALL
 Java_org_zeromq_czmq_Zconfig__1_1name (JNIEnv *env, jclass c, jlong self)
 {
@@ -224,6 +231,18 @@ Java_org_zeromq_czmq_Zconfig__1_1hasChanged (JNIEnv *env, jclass c, jlong self)
 {
     jboolean has_changed_ = (jboolean) zconfig_has_changed ((zconfig_t *) (intptr_t) self);
     return has_changed_;
+}
+
+JNIEXPORT void JNICALL
+Java_org_zeromq_czmq_Zconfig__1_1removeSubtree (JNIEnv *env, jclass c, jlong self)
+{
+    zconfig_remove_subtree ((zconfig_t *) (intptr_t) self);
+}
+
+JNIEXPORT jlong JNICALL
+Java_org_zeromq_czmq_Zconfig__1_1remove (JNIEnv *env, jclass c, jlong self)
+{
+    zconfig_remove ((zconfig_t **) &self);
 }
 
 JNIEXPORT void JNICALL

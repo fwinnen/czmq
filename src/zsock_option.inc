@@ -19,8 +19,148 @@
     =========================================================================
 */
 
-#if (ZMQ_VERSION_MAJOR >= 4)
-#   if (ZMQ_VERSION_MINOR >= 2)
+//  --------------------------------------------------------------------------
+//  Set socket ZMQ_GSSAPI_PRINCIPAL_NAMETYPE value
+//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
+
+void
+zsock_set_gssapi_principal_nametype (void *self, int gssapi_principal_nametype)
+{
+    assert (self);
+#   if defined (ZMQ_GSSAPI_PRINCIPAL_NAMETYPE)
+    int major, minor, patch;
+    zmq_version (&major, &minor, &patch);
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (4, 3, 0)) {
+        zsys_error ("zsock gssapi_principal_nametype option not supported by libzmq version %d.%d.%d, "
+            "run with libzmq >= 4.3.0\n", major, minor, patch, NULL);
+        return;
+    }
+    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_GSSAPI_PRINCIPAL_NAMETYPE, &gssapi_principal_nametype, sizeof (int));
+    assert (rc == 0 || zmq_errno () == ETERM);
+#   endif
+}
+
+
+//  --------------------------------------------------------------------------
+//  Return socket ZMQ_GSSAPI_PRINCIPAL_NAMETYPE value
+//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
+
+int
+zsock_gssapi_principal_nametype (void *self)
+{
+    assert (self);
+#   if defined (ZMQ_GSSAPI_PRINCIPAL_NAMETYPE)
+    int major, minor, patch;
+    zmq_version (&major, &minor, &patch);
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (4, 3, 0)) {
+        zsys_error ("zsock gssapi_principal_nametype option not supported by libzmq version %d.%d.%d, "
+            "run with libzmq >= 4.3.0\n", major, minor, patch, NULL);
+        return 0;
+    }
+    int gssapi_principal_nametype;
+    size_t option_len = sizeof (int);
+    zmq_getsockopt (zsock_resolve (self), ZMQ_GSSAPI_PRINCIPAL_NAMETYPE, &gssapi_principal_nametype, &option_len);
+    return gssapi_principal_nametype;
+#   else
+    return 0;
+#   endif
+}
+
+//  --------------------------------------------------------------------------
+//  Set socket ZMQ_GSSAPI_SERVICE_PRINCIPAL_NAMETYPE value
+//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
+
+void
+zsock_set_gssapi_service_principal_nametype (void *self, int gssapi_service_principal_nametype)
+{
+    assert (self);
+#   if defined (ZMQ_GSSAPI_SERVICE_PRINCIPAL_NAMETYPE)
+    int major, minor, patch;
+    zmq_version (&major, &minor, &patch);
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (4, 3, 0)) {
+        zsys_error ("zsock gssapi_service_principal_nametype option not supported by libzmq version %d.%d.%d, "
+            "run with libzmq >= 4.3.0\n", major, minor, patch, NULL);
+        return;
+    }
+    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_GSSAPI_SERVICE_PRINCIPAL_NAMETYPE, &gssapi_service_principal_nametype, sizeof (int));
+    assert (rc == 0 || zmq_errno () == ETERM);
+#   endif
+}
+
+
+//  --------------------------------------------------------------------------
+//  Return socket ZMQ_GSSAPI_SERVICE_PRINCIPAL_NAMETYPE value
+//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
+
+int
+zsock_gssapi_service_principal_nametype (void *self)
+{
+    assert (self);
+#   if defined (ZMQ_GSSAPI_SERVICE_PRINCIPAL_NAMETYPE)
+    int major, minor, patch;
+    zmq_version (&major, &minor, &patch);
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (4, 3, 0)) {
+        zsys_error ("zsock gssapi_service_principal_nametype option not supported by libzmq version %d.%d.%d, "
+            "run with libzmq >= 4.3.0\n", major, minor, patch, NULL);
+        return 0;
+    }
+    int gssapi_service_principal_nametype;
+    size_t option_len = sizeof (int);
+    zmq_getsockopt (zsock_resolve (self), ZMQ_GSSAPI_SERVICE_PRINCIPAL_NAMETYPE, &gssapi_service_principal_nametype, &option_len);
+    return gssapi_service_principal_nametype;
+#   else
+    return 0;
+#   endif
+}
+
+//  --------------------------------------------------------------------------
+//  Set socket ZMQ_BINDTODEVICE value
+//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
+
+void
+zsock_set_bindtodevice (void *self, const char * bindtodevice)
+{
+    assert (self);
+#   if defined (ZMQ_BINDTODEVICE)
+    int major, minor, patch;
+    zmq_version (&major, &minor, &patch);
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (4, 3, 0)) {
+        zsys_error ("zsock bindtodevice option not supported by libzmq version %d.%d.%d, "
+            "run with libzmq >= 4.3.0\n", major, minor, patch, NULL);
+        return;
+    }
+    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_BINDTODEVICE, bindtodevice, strlen (bindtodevice));
+    assert (rc == 0 || zmq_errno () == ETERM);
+#   endif
+}
+
+
+//  --------------------------------------------------------------------------
+//  Return socket ZMQ_BINDTODEVICE value
+//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
+
+char *
+zsock_bindtodevice (void *self)
+{
+    assert (self);
+#   if defined (ZMQ_BINDTODEVICE)
+    int major, minor, patch;
+    zmq_version (&major, &minor, &patch);
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (4, 3, 0)) {
+        zsys_error ("zsock bindtodevice option not supported by libzmq version %d.%d.%d, "
+            "run with libzmq >= 4.3.0\n", major, minor, patch, NULL);
+        return 0;
+    }
+    size_t option_len = 255;
+    char *bindtodevice = (char *) zmalloc (option_len);
+    zmq_getsockopt (zsock_resolve (self), ZMQ_BINDTODEVICE, bindtodevice, &option_len);
+    return (char *) bindtodevice;
+#   else
+    return NULL;
+#   endif
+}
+
+
 //  --------------------------------------------------------------------------
 //  Set socket ZMQ_HEARTBEAT_IVL value
 //  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
@@ -723,11 +863,7 @@ zsock_vmci_connect_timeout (void *self)
 #   endif
 }
 
-#   endif
-#endif
 
-#if (ZMQ_VERSION_MAJOR >= 4)
-#   if (ZMQ_VERSION_MINOR >= 1)
 //  --------------------------------------------------------------------------
 //  Set socket ZMQ_TOS value
 //  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
@@ -970,10 +1106,7 @@ zsock_set_xpub_nodrop (void *self, int xpub_nodrop)
 }
 
 
-#   endif
-#endif
 
-#if (ZMQ_VERSION_MAJOR >= 4)
 //  --------------------------------------------------------------------------
 //  Set socket ZMQ_ROUTER_MANDATORY value
 //  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
@@ -1856,33 +1989,6 @@ zsock_immediate (void *self)
 #   endif
 }
 
-#endif
-
-#if (ZMQ_VERSION_MAJOR >= 3)
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_TYPE value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_type (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_TYPE)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock type option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int type;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_TYPE, &type, &option_len);
-    return type;
-#   else
-    return 0;
-#   endif
-}
 
 //  --------------------------------------------------------------------------
 //  Set socket ZMQ_SNDHWM value
@@ -1979,536 +2085,6 @@ zsock_rcvhwm (void *self)
 }
 
 //  --------------------------------------------------------------------------
-//  Set socket ZMQ_AFFINITY value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_affinity (void *self, int affinity)
-{
-    assert (self);
-#   if defined (ZMQ_AFFINITY)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock affinity option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    uint64_t value = affinity;
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_AFFINITY, &value, sizeof (uint64_t));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_AFFINITY value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_affinity (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_AFFINITY)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock affinity option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    uint64_t affinity;
-    size_t option_len = sizeof (uint64_t);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_AFFINITY, &affinity, &option_len);
-    return (int) affinity;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_SUBSCRIBE value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_subscribe (void *self, const char * subscribe)
-{
-    assert (self);
-#   if defined (ZMQ_SUBSCRIBE)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock subscribe option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    if (zsock_type (self) != ZMQ_SUB) {
-        printf ("ZMQ_SUBSCRIBE is not valid on %s sockets\n", zsys_sockname (zsock_type (self)));
-        assert (false);
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_SUBSCRIBE, subscribe, strlen (subscribe));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_UNSUBSCRIBE value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_unsubscribe (void *self, const char * unsubscribe)
-{
-    assert (self);
-#   if defined (ZMQ_UNSUBSCRIBE)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock unsubscribe option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    if (zsock_type (self) != ZMQ_SUB) {
-        printf ("ZMQ_UNSUBSCRIBE is not valid on %s sockets\n", zsys_sockname (zsock_type (self)));
-        assert (false);
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_UNSUBSCRIBE, unsubscribe, strlen (unsubscribe));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_IDENTITY value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_identity (void *self, const char * identity)
-{
-    assert (self);
-#   if defined (ZMQ_IDENTITY)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock identity option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    if (zsock_type (self) != ZMQ_REQ
-    &&  zsock_type (self) != ZMQ_REP
-    &&  zsock_type (self) != ZMQ_DEALER
-    &&  zsock_type (self) != ZMQ_ROUTER) {
-        printf ("ZMQ_IDENTITY is not valid on %s sockets\n", zsys_sockname (zsock_type (self)));
-        assert (false);
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_IDENTITY, identity, strlen (identity));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_IDENTITY value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-char *
-zsock_identity (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_IDENTITY)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock identity option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    size_t option_len = 255;
-    char *identity = (char *) zmalloc (option_len);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_IDENTITY, identity, &option_len);
-    return (char *) identity;
-#   else
-    return NULL;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_RATE value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_rate (void *self, int rate)
-{
-    assert (self);
-#   if defined (ZMQ_RATE)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock rate option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RATE, &rate, sizeof (int));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_RATE value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_rate (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_RATE)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock rate option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int rate;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_RATE, &rate, &option_len);
-    return rate;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_RECOVERY_IVL value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_recovery_ivl (void *self, int recovery_ivl)
-{
-    assert (self);
-#   if defined (ZMQ_RECOVERY_IVL)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock recovery_ivl option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RECOVERY_IVL, &recovery_ivl, sizeof (int));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_RECOVERY_IVL value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_recovery_ivl (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_RECOVERY_IVL)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock recovery_ivl option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int recovery_ivl;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_RECOVERY_IVL, &recovery_ivl, &option_len);
-    return recovery_ivl;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_SNDBUF value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_sndbuf (void *self, int sndbuf)
-{
-    assert (self);
-#   if defined (ZMQ_SNDBUF)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock sndbuf option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_SNDBUF, &sndbuf, sizeof (int));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_SNDBUF value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_sndbuf (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_SNDBUF)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock sndbuf option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int sndbuf;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_SNDBUF, &sndbuf, &option_len);
-    return sndbuf;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_RCVBUF value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_rcvbuf (void *self, int rcvbuf)
-{
-    assert (self);
-#   if defined (ZMQ_RCVBUF)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock rcvbuf option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RCVBUF, &rcvbuf, sizeof (int));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_RCVBUF value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_rcvbuf (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_RCVBUF)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock rcvbuf option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int rcvbuf;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_RCVBUF, &rcvbuf, &option_len);
-    return rcvbuf;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_LINGER value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_linger (void *self, int linger)
-{
-    assert (self);
-#   if defined (ZMQ_LINGER)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock linger option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_LINGER, &linger, sizeof (int));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_LINGER value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_linger (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_LINGER)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock linger option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int linger;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_LINGER, &linger, &option_len);
-    return linger;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_RECONNECT_IVL value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_reconnect_ivl (void *self, int reconnect_ivl)
-{
-    assert (self);
-#   if defined (ZMQ_RECONNECT_IVL)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock reconnect_ivl option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RECONNECT_IVL, &reconnect_ivl, sizeof (int));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_RECONNECT_IVL value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_reconnect_ivl (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_RECONNECT_IVL)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock reconnect_ivl option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int reconnect_ivl;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_RECONNECT_IVL, &reconnect_ivl, &option_len);
-    return reconnect_ivl;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_RECONNECT_IVL_MAX value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_reconnect_ivl_max (void *self, int reconnect_ivl_max)
-{
-    assert (self);
-#   if defined (ZMQ_RECONNECT_IVL_MAX)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock reconnect_ivl_max option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RECONNECT_IVL_MAX, &reconnect_ivl_max, sizeof (int));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_RECONNECT_IVL_MAX value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_reconnect_ivl_max (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_RECONNECT_IVL_MAX)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock reconnect_ivl_max option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int reconnect_ivl_max;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_RECONNECT_IVL_MAX, &reconnect_ivl_max, &option_len);
-    return reconnect_ivl_max;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_BACKLOG value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_backlog (void *self, int backlog)
-{
-    assert (self);
-#   if defined (ZMQ_BACKLOG)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock backlog option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_BACKLOG, &backlog, sizeof (int));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_BACKLOG value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_backlog (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_BACKLOG)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock backlog option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int backlog;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_BACKLOG, &backlog, &option_len);
-    return backlog;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
 //  Set socket ZMQ_MAXMSGSIZE value
 //  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
 
@@ -2598,100 +2174,6 @@ zsock_multicast_hops (void *self)
     size_t option_len = sizeof (int);
     zmq_getsockopt (zsock_resolve (self), ZMQ_MULTICAST_HOPS, &multicast_hops, &option_len);
     return multicast_hops;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_RCVTIMEO value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_rcvtimeo (void *self, int rcvtimeo)
-{
-    assert (self);
-#   if defined (ZMQ_RCVTIMEO)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock rcvtimeo option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RCVTIMEO, &rcvtimeo, sizeof (int));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_RCVTIMEO value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_rcvtimeo (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_RCVTIMEO)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock rcvtimeo option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int rcvtimeo;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_RCVTIMEO, &rcvtimeo, &option_len);
-    return rcvtimeo;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Set socket ZMQ_SNDTIMEO value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-void
-zsock_set_sndtimeo (void *self, int sndtimeo)
-{
-    assert (self);
-#   if defined (ZMQ_SNDTIMEO)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock sndtimeo option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return;
-    }
-    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_SNDTIMEO, &sndtimeo, sizeof (int));
-    assert (rc == 0 || zmq_errno () == ETERM);
-#   endif
-}
-
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_SNDTIMEO value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_sndtimeo (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_SNDTIMEO)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock sndtimeo option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int sndtimeo;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_SNDTIMEO, &sndtimeo, &option_len);
-    return sndtimeo;
 #   else
     return 0;
 #   endif
@@ -2959,81 +2441,6 @@ zsock_tcp_accept_filter (void *self)
 }
 
 //  --------------------------------------------------------------------------
-//  Return socket ZMQ_RCVMORE value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_rcvmore (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_RCVMORE)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock rcvmore option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int rcvmore;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_RCVMORE, &rcvmore, &option_len);
-    return rcvmore;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_FD value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-SOCKET
-zsock_fd (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_FD)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock fd option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    SOCKET fd;
-    size_t option_len = sizeof (SOCKET);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_FD, &fd, &option_len);
-    return fd;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
-//  Return socket ZMQ_EVENTS value
-//  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
-
-int
-zsock_events (void *self)
-{
-    assert (self);
-#   if defined (ZMQ_EVENTS)
-    int major, minor, patch;
-    zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (3, 0, 0)) {
-        zsys_error ("zsock events option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 3.0.0\n", major, minor, patch, NULL);
-        return 0;
-    }
-    int events;
-    size_t option_len = sizeof (int);
-    zmq_getsockopt (zsock_resolve (self), ZMQ_EVENTS, &events, &option_len);
-    return events;
-#   else
-    return 0;
-#   endif
-}
-
-//  --------------------------------------------------------------------------
 //  Return socket ZMQ_LAST_ENDPOINT value
 //  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
 
@@ -3153,9 +2560,7 @@ zsock_set_delay_attach_on_connect (void *self, int delay_attach_on_connect)
 }
 
 
-#endif
 
-#if (ZMQ_VERSION_MAJOR >= 2) && (ZMQ_VERSION_MAJOR < 3)
 //  --------------------------------------------------------------------------
 //  Set socket ZMQ_HWM value
 //  *** GENERATED SOURCE CODE, DO NOT EDIT, SEE INSTRUCTIONS AT START ***
@@ -3267,10 +2672,9 @@ zsock_set_affinity (void *self, int affinity)
 #   if defined (ZMQ_AFFINITY)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock affinity option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
     uint64_t value = affinity;
@@ -3291,10 +2695,9 @@ zsock_affinity (void *self)
 #   if defined (ZMQ_AFFINITY)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock affinity option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
     uint64_t affinity;
@@ -3317,11 +2720,17 @@ zsock_set_identity (void *self, const char * identity)
 #   if defined (ZMQ_IDENTITY)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock identity option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
+    }
+    if (zsock_type (self) != ZMQ_REQ
+    &&  zsock_type (self) != ZMQ_REP
+    &&  zsock_type (self) != ZMQ_DEALER
+    &&  zsock_type (self) != ZMQ_ROUTER) {
+        printf ("ZMQ_IDENTITY is not valid on %s sockets\n", zsys_sockname (zsock_type (self)));
+        assert (false);
     }
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_IDENTITY, identity, strlen (identity));
     assert (rc == 0 || zmq_errno () == ETERM);
@@ -3340,10 +2749,9 @@ zsock_identity (void *self)
 #   if defined (ZMQ_IDENTITY)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock identity option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
     size_t option_len = 255;
@@ -3366,14 +2774,17 @@ zsock_set_rate (void *self, int rate)
 #   if defined (ZMQ_RATE)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock rate option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
+#        if ZMQ_VERSION_MAJOR < 3
     int64_t value = rate;
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RATE, &value, sizeof (int64_t));
+#        else
+    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RATE, &rate, sizeof (int));
+#        endif
     assert (rc == 0 || zmq_errno () == ETERM);
 #   endif
 }
@@ -3390,16 +2801,22 @@ zsock_rate (void *self)
 #   if defined (ZMQ_RATE)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock rate option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
+#        if ZMQ_VERSION_MAJOR < 3
     int64_t rate;
     size_t option_len = sizeof (int64_t);
     zmq_getsockopt (zsock_resolve (self), ZMQ_RATE, &rate, &option_len);
     return (int) rate;
+#        else
+    int rate;
+    size_t option_len = sizeof (int);
+    zmq_getsockopt (zsock_resolve (self), ZMQ_RATE, &rate, &option_len);
+    return rate;
+#        endif
 #   else
     return 0;
 #   endif
@@ -3416,14 +2833,17 @@ zsock_set_recovery_ivl (void *self, int recovery_ivl)
 #   if defined (ZMQ_RECOVERY_IVL)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock recovery_ivl option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
+#        if ZMQ_VERSION_MAJOR < 3
     int64_t value = recovery_ivl;
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RECOVERY_IVL, &value, sizeof (int64_t));
+#        else
+    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RECOVERY_IVL, &recovery_ivl, sizeof (int));
+#        endif
     assert (rc == 0 || zmq_errno () == ETERM);
 #   endif
 }
@@ -3440,16 +2860,22 @@ zsock_recovery_ivl (void *self)
 #   if defined (ZMQ_RECOVERY_IVL)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock recovery_ivl option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
+#        if ZMQ_VERSION_MAJOR < 3
     int64_t recovery_ivl;
     size_t option_len = sizeof (int64_t);
     zmq_getsockopt (zsock_resolve (self), ZMQ_RECOVERY_IVL, &recovery_ivl, &option_len);
     return (int) recovery_ivl;
+#        else
+    int recovery_ivl;
+    size_t option_len = sizeof (int);
+    zmq_getsockopt (zsock_resolve (self), ZMQ_RECOVERY_IVL, &recovery_ivl, &option_len);
+    return recovery_ivl;
+#        endif
 #   else
     return 0;
 #   endif
@@ -3566,10 +2992,9 @@ zsock_set_rcvtimeo (void *self, int rcvtimeo)
 #   if defined (ZMQ_RCVTIMEO)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 2, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 2, 0)) {
         zsys_error ("zsock rcvtimeo option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.2.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.2.0\n", major, minor, patch, NULL);
         return;
     }
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RCVTIMEO, &rcvtimeo, sizeof (int));
@@ -3589,10 +3014,9 @@ zsock_rcvtimeo (void *self)
 #   if defined (ZMQ_RCVTIMEO)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 2, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 2, 0)) {
         zsys_error ("zsock rcvtimeo option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.2.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.2.0\n", major, minor, patch, NULL);
         return 0;
     }
     int rcvtimeo;
@@ -3615,10 +3039,9 @@ zsock_set_sndtimeo (void *self, int sndtimeo)
 #   if defined (ZMQ_SNDTIMEO)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 2, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 2, 0)) {
         zsys_error ("zsock sndtimeo option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.2.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.2.0\n", major, minor, patch, NULL);
         return;
     }
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_SNDTIMEO, &sndtimeo, sizeof (int));
@@ -3638,10 +3061,9 @@ zsock_sndtimeo (void *self)
 #   if defined (ZMQ_SNDTIMEO)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 2, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 2, 0)) {
         zsys_error ("zsock sndtimeo option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.2.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.2.0\n", major, minor, patch, NULL);
         return 0;
     }
     int sndtimeo;
@@ -3664,14 +3086,17 @@ zsock_set_sndbuf (void *self, int sndbuf)
 #   if defined (ZMQ_SNDBUF)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock sndbuf option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
+#        if ZMQ_VERSION_MAJOR < 3
     uint64_t value = sndbuf;
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_SNDBUF, &value, sizeof (uint64_t));
+#        else
+    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_SNDBUF, &sndbuf, sizeof (int));
+#        endif
     assert (rc == 0 || zmq_errno () == ETERM);
 #   endif
 }
@@ -3688,16 +3113,22 @@ zsock_sndbuf (void *self)
 #   if defined (ZMQ_SNDBUF)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock sndbuf option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
+#        if ZMQ_VERSION_MAJOR < 3
     uint64_t sndbuf;
     size_t option_len = sizeof (uint64_t);
     zmq_getsockopt (zsock_resolve (self), ZMQ_SNDBUF, &sndbuf, &option_len);
     return (int) sndbuf;
+#        else
+    int sndbuf;
+    size_t option_len = sizeof (int);
+    zmq_getsockopt (zsock_resolve (self), ZMQ_SNDBUF, &sndbuf, &option_len);
+    return sndbuf;
+#        endif
 #   else
     return 0;
 #   endif
@@ -3714,14 +3145,17 @@ zsock_set_rcvbuf (void *self, int rcvbuf)
 #   if defined (ZMQ_RCVBUF)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock rcvbuf option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
+#        if ZMQ_VERSION_MAJOR < 3
     uint64_t value = rcvbuf;
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RCVBUF, &value, sizeof (uint64_t));
+#        else
+    int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RCVBUF, &rcvbuf, sizeof (int));
+#        endif
     assert (rc == 0 || zmq_errno () == ETERM);
 #   endif
 }
@@ -3738,16 +3172,22 @@ zsock_rcvbuf (void *self)
 #   if defined (ZMQ_RCVBUF)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock rcvbuf option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
+#        if ZMQ_VERSION_MAJOR < 3
     uint64_t rcvbuf;
     size_t option_len = sizeof (uint64_t);
     zmq_getsockopt (zsock_resolve (self), ZMQ_RCVBUF, &rcvbuf, &option_len);
     return (int) rcvbuf;
+#        else
+    int rcvbuf;
+    size_t option_len = sizeof (int);
+    zmq_getsockopt (zsock_resolve (self), ZMQ_RCVBUF, &rcvbuf, &option_len);
+    return rcvbuf;
+#        endif
 #   else
     return 0;
 #   endif
@@ -3764,10 +3204,9 @@ zsock_set_linger (void *self, int linger)
 #   if defined (ZMQ_LINGER)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock linger option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_LINGER, &linger, sizeof (int));
@@ -3787,10 +3226,9 @@ zsock_linger (void *self)
 #   if defined (ZMQ_LINGER)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock linger option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
     int linger;
@@ -3813,10 +3251,9 @@ zsock_set_reconnect_ivl (void *self, int reconnect_ivl)
 #   if defined (ZMQ_RECONNECT_IVL)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock reconnect_ivl option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RECONNECT_IVL, &reconnect_ivl, sizeof (int));
@@ -3836,10 +3273,9 @@ zsock_reconnect_ivl (void *self)
 #   if defined (ZMQ_RECONNECT_IVL)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock reconnect_ivl option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
     int reconnect_ivl;
@@ -3862,10 +3298,9 @@ zsock_set_reconnect_ivl_max (void *self, int reconnect_ivl_max)
 #   if defined (ZMQ_RECONNECT_IVL_MAX)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock reconnect_ivl_max option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_RECONNECT_IVL_MAX, &reconnect_ivl_max, sizeof (int));
@@ -3885,10 +3320,9 @@ zsock_reconnect_ivl_max (void *self)
 #   if defined (ZMQ_RECONNECT_IVL_MAX)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock reconnect_ivl_max option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
     int reconnect_ivl_max;
@@ -3911,10 +3345,9 @@ zsock_set_backlog (void *self, int backlog)
 #   if defined (ZMQ_BACKLOG)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock backlog option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
     int rc = zmq_setsockopt (zsock_resolve (self), ZMQ_BACKLOG, &backlog, sizeof (int));
@@ -3934,10 +3367,9 @@ zsock_backlog (void *self)
 #   if defined (ZMQ_BACKLOG)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock backlog option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
     int backlog;
@@ -3960,10 +3392,9 @@ zsock_set_subscribe (void *self, const char * subscribe)
 #   if defined (ZMQ_SUBSCRIBE)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock subscribe option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
     if (zsock_type (self) != ZMQ_SUB) {
@@ -3987,10 +3418,9 @@ zsock_set_unsubscribe (void *self, const char * unsubscribe)
 #   if defined (ZMQ_UNSUBSCRIBE)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock unsubscribe option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return;
     }
     if (zsock_type (self) != ZMQ_SUB) {
@@ -4014,10 +3444,9 @@ zsock_type (void *self)
 #   if defined (ZMQ_TYPE)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock type option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
     int type;
@@ -4040,16 +3469,22 @@ zsock_rcvmore (void *self)
 #   if defined (ZMQ_RCVMORE)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock rcvmore option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
+#        if ZMQ_VERSION_MAJOR < 3
     int64_t rcvmore;
     size_t option_len = sizeof (int64_t);
     zmq_getsockopt (zsock_resolve (self), ZMQ_RCVMORE, &rcvmore, &option_len);
     return (int) rcvmore;
+#        else
+    int rcvmore;
+    size_t option_len = sizeof (int);
+    zmq_getsockopt (zsock_resolve (self), ZMQ_RCVMORE, &rcvmore, &option_len);
+    return rcvmore;
+#        endif
 #   else
     return 0;
 #   endif
@@ -4066,10 +3501,9 @@ zsock_fd (void *self)
 #   if defined (ZMQ_FD)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock fd option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
     SOCKET fd;
@@ -4092,22 +3526,27 @@ zsock_events (void *self)
 #   if defined (ZMQ_EVENTS)
     int major, minor, patch;
     zmq_version (&major, &minor, &patch);
-    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)
-            || ZMQ_MAKE_VERSION (major, minor, patch) >= ZMQ_MAKE_VERSION (3, 0, 0)) {
+    if (ZMQ_MAKE_VERSION (major, minor, patch) < ZMQ_MAKE_VERSION (2, 0, 0)) {
         zsys_error ("zsock events option not supported by libzmq version %d.%d.%d, "
-            "run with libzmq >= 2.0.0 and < 3.0.0\n", major, minor, patch, NULL);
+            "run with libzmq >= 2.0.0\n", major, minor, patch, NULL);
         return 0;
     }
+#        if ZMQ_VERSION_MAJOR < 3
     uint32_t events;
     size_t option_len = sizeof (uint32_t);
     zmq_getsockopt (zsock_resolve (self), ZMQ_EVENTS, &events, &option_len);
     return (int) events;
+#        else
+    int events;
+    size_t option_len = sizeof (int);
+    zmq_getsockopt (zsock_resolve (self), ZMQ_EVENTS, &events, &option_len);
+    return events;
+#        endif
 #   else
     return 0;
 #   endif
 }
 
-#endif
 
 //  --------------------------------------------------------------------------
 //  Selftest
@@ -4120,6 +3559,11 @@ zsock_option_test (bool verbose)
 
     //  @selftest
     zsock_t *self;
+#if (ZMQ_VERSION_MAJOR >= 4)
+#   if (ZMQ_VERSION_MINOR >= 3)
+#   endif
+#endif
+
 #if (ZMQ_VERSION_MAJOR >= 4)
 #   if (ZMQ_VERSION_MINOR >= 2)
 #     if defined (ZMQ_HEARTBEAT_IVL)
@@ -4255,7 +3699,7 @@ zsock_option_test (bool verbose)
     zsock_set_socks_proxy (self, "127.0.0.1");
     char *socks_proxy = zsock_socks_proxy (self);
     assert (socks_proxy);
-    free (socks_proxy);
+    freen (socks_proxy);
     zsock_destroy (&self);
 #     endif
 #     if defined (ZMQ_XPUB_NODROP)
@@ -4304,7 +3748,7 @@ zsock_option_test (bool verbose)
     zsock_set_zap_domain (self, "test");
     char *zap_domain = zsock_zap_domain (self);
     assert (zap_domain);
-    free (zap_domain);
+    freen (zap_domain);
     zsock_destroy (&self);
 #     endif
 #     if defined (ZMQ_MECHANISM)
@@ -4327,7 +3771,7 @@ zsock_option_test (bool verbose)
     zsock_set_plain_username (self, "test");
     char *plain_username = zsock_plain_username (self);
     assert (plain_username);
-    free (plain_username);
+    freen (plain_username);
     zsock_destroy (&self);
 #     endif
 #     if defined (ZMQ_PLAIN_PASSWORD)
@@ -4336,7 +3780,7 @@ zsock_option_test (bool verbose)
     zsock_set_plain_password (self, "test");
     char *plain_password = zsock_plain_password (self);
     assert (plain_password);
-    free (plain_password);
+    freen (plain_password);
     zsock_destroy (&self);
 #     endif
 #     if defined (ZMQ_IPV6)
@@ -4358,12 +3802,6 @@ zsock_option_test (bool verbose)
 #endif
 
 #if (ZMQ_VERSION_MAJOR >= 3)
-#     if defined (ZMQ_TYPE)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_type (self);
-    zsock_destroy (&self);
-#     endif
 #     if defined (ZMQ_SNDHWM)
     self = zsock_new (ZMQ_PUB);
     assert (self);
@@ -4380,99 +3818,6 @@ zsock_option_test (bool verbose)
     zsock_rcvhwm (self);
     zsock_destroy (&self);
 #     endif
-#     if defined (ZMQ_AFFINITY)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_affinity (self, 1);
-    assert (zsock_affinity (self) == 1);
-    zsock_affinity (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_SUBSCRIBE)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_subscribe (self, "test");
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_UNSUBSCRIBE)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_unsubscribe (self, "test");
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_IDENTITY)
-    self = zsock_new (ZMQ_DEALER);
-    assert (self);
-    zsock_set_identity (self, "test");
-    char *identity = zsock_identity (self);
-    assert (identity);
-    free (identity);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_RATE)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_rate (self, 1);
-    assert (zsock_rate (self) == 1);
-    zsock_rate (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_RECOVERY_IVL)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_recovery_ivl (self, 1);
-    assert (zsock_recovery_ivl (self) == 1);
-    zsock_recovery_ivl (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_SNDBUF)
-    self = zsock_new (ZMQ_PUB);
-    assert (self);
-    zsock_set_sndbuf (self, 1);
-    assert (zsock_sndbuf (self) == 1);
-    zsock_sndbuf (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_RCVBUF)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_rcvbuf (self, 1);
-    assert (zsock_rcvbuf (self) == 1);
-    zsock_rcvbuf (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_LINGER)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_linger (self, 1);
-    assert (zsock_linger (self) == 1);
-    zsock_linger (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_RECONNECT_IVL)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_reconnect_ivl (self, 1);
-    assert (zsock_reconnect_ivl (self) == 1);
-    zsock_reconnect_ivl (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_RECONNECT_IVL_MAX)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_reconnect_ivl_max (self, 1);
-    assert (zsock_reconnect_ivl_max (self) == 1);
-    zsock_reconnect_ivl_max (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_BACKLOG)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_backlog (self, 1);
-    assert (zsock_backlog (self) == 1);
-    zsock_backlog (self);
-    zsock_destroy (&self);
-#     endif
 #     if defined (ZMQ_MAXMSGSIZE)
     self = zsock_new (ZMQ_SUB);
     assert (self);
@@ -4487,22 +3832,6 @@ zsock_option_test (bool verbose)
     zsock_set_multicast_hops (self, 1);
     assert (zsock_multicast_hops (self) == 1);
     zsock_multicast_hops (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_RCVTIMEO)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_rcvtimeo (self, 1);
-    assert (zsock_rcvtimeo (self) == 1);
-    zsock_rcvtimeo (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_SNDTIMEO)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_set_sndtimeo (self, 1);
-    assert (zsock_sndtimeo (self) == 1);
-    zsock_sndtimeo (self);
     zsock_destroy (&self);
 #     endif
 #     if defined (ZMQ_XPUB_VERBOSE)
@@ -4549,25 +3878,7 @@ zsock_option_test (bool verbose)
     zsock_set_tcp_accept_filter (self, "127.0.0.1");
     char *tcp_accept_filter = zsock_tcp_accept_filter (self);
     assert (tcp_accept_filter);
-    free (tcp_accept_filter);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_RCVMORE)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_rcvmore (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_FD)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_fd (self);
-    zsock_destroy (&self);
-#     endif
-#     if defined (ZMQ_EVENTS)
-    self = zsock_new (ZMQ_SUB);
-    assert (self);
-    zsock_events (self);
+    freen (tcp_accept_filter);
     zsock_destroy (&self);
 #     endif
 #     if defined (ZMQ_LAST_ENDPOINT)
@@ -4575,7 +3886,7 @@ zsock_option_test (bool verbose)
     assert (self);
     char *last_endpoint = zsock_last_endpoint (self);
     assert (last_endpoint);
-    free (last_endpoint);
+    freen (last_endpoint);
     zsock_destroy (&self);
 #     endif
 #     if defined (ZMQ_ROUTER_RAW)
@@ -4600,7 +3911,8 @@ zsock_option_test (bool verbose)
 #     endif
 #endif
 
-#if (ZMQ_VERSION_MAJOR >= 2) && (ZMQ_VERSION_MAJOR < 3)
+#if (ZMQ_VERSION_MAJOR >= 2)
+#   if (ZMQ_VERSION_MAJOR < 3)
 #     if defined (ZMQ_HWM)
     self = zsock_new (ZMQ_SUB);
     assert (self);
@@ -4609,6 +3921,8 @@ zsock_option_test (bool verbose)
     zsock_hwm (self);
     zsock_destroy (&self);
 #     endif
+#   endif
+#   if (ZMQ_VERSION_MAJOR < 3)
 #     if defined (ZMQ_SWAP)
     self = zsock_new (ZMQ_SUB);
     assert (self);
@@ -4617,6 +3931,7 @@ zsock_option_test (bool verbose)
     zsock_swap (self);
     zsock_destroy (&self);
 #     endif
+#   endif
 #     if defined (ZMQ_AFFINITY)
     self = zsock_new (ZMQ_SUB);
     assert (self);
@@ -4626,12 +3941,12 @@ zsock_option_test (bool verbose)
     zsock_destroy (&self);
 #     endif
 #     if defined (ZMQ_IDENTITY)
-    self = zsock_new (ZMQ_SUB);
+    self = zsock_new (ZMQ_DEALER);
     assert (self);
     zsock_set_identity (self, "test");
     char *identity = zsock_identity (self);
     assert (identity);
-    free (identity);
+    freen (identity);
     zsock_destroy (&self);
 #     endif
 #     if defined (ZMQ_RATE)
@@ -4650,6 +3965,7 @@ zsock_option_test (bool verbose)
     zsock_recovery_ivl (self);
     zsock_destroy (&self);
 #     endif
+#   if (ZMQ_VERSION_MAJOR < 3)
 #     if defined (ZMQ_RECOVERY_IVL_MSEC)
     self = zsock_new (ZMQ_SUB);
     assert (self);
@@ -4658,6 +3974,8 @@ zsock_option_test (bool verbose)
     zsock_recovery_ivl_msec (self);
     zsock_destroy (&self);
 #     endif
+#   endif
+#   if (ZMQ_VERSION_MAJOR < 3)
 #     if defined (ZMQ_MCAST_LOOP)
     self = zsock_new (ZMQ_SUB);
     assert (self);
@@ -4666,6 +3984,7 @@ zsock_option_test (bool verbose)
     zsock_mcast_loop (self);
     zsock_destroy (&self);
 #     endif
+#   endif
 #     if defined (ZMQ_RCVTIMEO)
     self = zsock_new (ZMQ_SUB);
     assert (self);

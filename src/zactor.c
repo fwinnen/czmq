@@ -35,13 +35,14 @@
 
 //  zactor_t instances always have this tag as the first 4 octets of
 //  their data, which lets us do runtime object typing & validation.
-#define ZACTOR_TAG          0x0005cafe
+#define ZACTOR_TAG          0xcafe0005
 
 //  Structure of our class
 
 struct _zactor_t {
     uint32_t tag;               //  Object tag for runtime detection
     zsock_t *pipe;              //  Front-end pipe through to actor
+    zactor_destructor_fn *destructor;   //  Custom destructor for actor, sends $TERM by default
 };
 
 
@@ -69,7 +70,7 @@ s_thread_shim (void *args)
     zsock_set_sndtimeo (shim->pipe, 0);
     zsock_signal (shim->pipe, 0);
     zsock_destroy (&shim->pipe);
-    free (shim);
+    freen (shim);
     return NULL;
 }
 
@@ -86,12 +87,20 @@ s_thread_shim (void *args)
     zsock_set_sndtimeo (shim->pipe, 0);
     zsock_signal (shim->pipe, 0);
     zsock_destroy (&shim->pipe);
-    free (shim);
+    freen (shim);
     _endthreadex (0);           //  Terminates thread
     return 0;
 }
 #endif
 
+
+//  Sends $TERM string to child
+static void
+s_zactor_destructor (zactor_t *self) {
+    assert (self);
+    if (zstr_send (self->pipe, "$TERM") == 0)
+        zsock_wait (self->pipe);
+}
 
 //  --------------------------------------------------------------------------
 //  Create a new actor.
@@ -102,6 +111,7 @@ zactor_new (zactor_fn actor, void *args)
     zactor_t *self = (zactor_t *) zmalloc (sizeof (zactor_t));
     assert (self);
     self->tag = ZACTOR_TAG;
+    self->destructor = s_zactor_destructor;
 
     shim_t *shim = (shim_t *) zmalloc (sizeof (shim_t));
     assert (shim);
@@ -159,12 +169,11 @@ zactor_destroy (zactor_t **self_p)
         //  exit signal.
         if (self->pipe) {
             zsock_set_sndtimeo (self->pipe, 0);
-            if (zstr_send (self->pipe, "$TERM") == 0)
-                zsock_wait (self->pipe);
+            self->destructor (self);
             zsock_destroy (&self->pipe);
         }
         self->tag = 0xDeadBeef;
-        free (self);
+        freen (self);
         *self_p = NULL;
     }
 }
@@ -232,6 +241,14 @@ zactor_sock (zactor_t *self)
     return self->pipe;
 }
 
+//  --------------------------------------------------------------------------
+//  Change default destructor by custom function. Actor MUST be able to handle
+//  new message instead of default $TERM.
+void
+zactor_set_destructor (zactor_t *self, zactor_destructor_fn destructor) {
+    assert (self);
+    self->destructor = destructor;
+}
 
 //  --------------------------------------------------------------------------
 //  Actor
@@ -262,11 +279,55 @@ echo_actor (zsock_t *pipe, void *args)
             puts ("E: invalid message to actor");
             assert (false);
         }
-        free (command);
+        freen (command);
         zmsg_destroy (&msg);
     }
 }
 
+static void
+KTHXBAI_actor (zsock_t *pipe, void *args) {
+
+    zsock_signal (pipe, 0);
+    while (!zsys_interrupted) {
+        char *str = zstr_recv (pipe);
+        int done = streq (str, "$KTHXBAI");
+        zstr_free (&str);
+        if (done)
+            break;
+    }
+}
+
+static void
+KTHXBAI_destructor (zactor_t *self) {
+    assert (self);
+    if (zstr_send (self, "$KTHXBAI") == 0)
+        zsock_wait (self);
+}
+
+static void
+BSEND_actor (zsock_t *pipe, void *args) {
+
+    zsock_signal (pipe, 0);
+    while (!zsys_interrupted) {
+        char *str = NULL;
+        void *ptr = NULL;
+        int r = zsock_brecv (pipe, "s", &str, &ptr);
+        if (r == -1)
+            break;
+        int done = streq (str, "$TERM");
+        if (done)
+            break;
+    }
+}
+
+static void
+BSEND_destructor (zactor_t *self) {
+    assert (self);
+    const char *str = "$TERM";
+    const void *ptr = str;
+    if (zsock_bsend (self, "s", str, ptr) == 0)
+        zsock_wait (self);
+}
 
 //  --------------------------------------------------------------------------
 //  Selftest
@@ -282,8 +343,26 @@ zactor_test (bool verbose)
     zstr_sendx (actor, "ECHO", "This is a string", NULL);
     char *string = zstr_recv (actor);
     assert (streq (string, "This is a string"));
-    free (string);
+    freen (string);
     zactor_destroy (&actor);
+
+    // custom destructor
+    // KTHXBAI_actor ends on "$KTHXBAI" string
+    zactor_t *KTHXBAI = zactor_new (KTHXBAI_actor, NULL);
+    assert (KTHXBAI);
+    // which is the one sent by KTHXBAI_destructor
+    zactor_set_destructor (KTHXBAI, KTHXBAI_destructor);
+    zactor_destroy (&KTHXBAI);
+
+    // custom destructor
+    // destructor using bsend/brecv
+    zactor_t *BSEND = zactor_new (BSEND_actor, NULL);
+    assert (BSEND);
+    zactor_set_destructor (BSEND, BSEND_destructor);
+    zactor_destroy (&BSEND);
+#if defined (__WINDOWS__)
+    zsys_shutdown();
+#endif
     //  @end
 
     printf ("OK\n");

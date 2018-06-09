@@ -74,8 +74,8 @@ module CZMQ
       end
 
       # Create a new callback of the following type:
-      # 
-      #     typedef int (zconfig_fct) (                
+      #
+      #     typedef int (zconfig_fct) (
       #         zconfig_t *self, void *arg, int level);
       #
       # @note WARNING: If your Ruby code doesn't retain a reference to the
@@ -101,9 +101,9 @@ module CZMQ
         __new ptr
       end
 
-      # Load a config tree from a specified ZPL text file; returns a zconfig_t  
+      # Load a config tree from a specified ZPL text file; returns a zconfig_t
       # reference for the root, if the file exists and is readable. Returns NULL
-      # if the file does not exist.                                             
+      # if the file does not exist.
       # @param filename [String, #to_s, nil]
       # @return [CZMQ::Zconfig]
       def self.load(filename)
@@ -112,7 +112,7 @@ module CZMQ
       end
 
       # Equivalent to zconfig_load, taking a format string instead of a fixed
-      # filename.                                                            
+      # filename.
       # @param format [String, #to_s, nil]
       # @param args [Array<Object>]
       # @return [CZMQ::Zconfig]
@@ -128,6 +128,19 @@ module CZMQ
         return unless @ptr
         self_p = __ptr_give_ref
         result = ::CZMQ::FFI.zconfig_destroy(self_p)
+        result
+      end
+
+      # Create copy of zconfig, caller MUST free the value
+      # Create copy of config, as new zconfig object. Returns a fresh zconfig_t
+      # object. If config is null, or memory was exhausted, returns null.
+      #
+      # @return [Zconfig]
+      def dup()
+        raise DestroyedError unless @ptr
+        self_p = @ptr
+        result = ::CZMQ::FFI.zconfig_dup(self_p)
+        result = Zconfig.__new result, true
         result
       end
 
@@ -164,7 +177,7 @@ module CZMQ
       end
 
       # Equivalent to zconfig_put, accepting a format specifier and variable
-      # argument list, instead of a single string value.                    
+      # argument list, instead of a single string value.
       #
       # @param path [String, #to_s, nil]
       # @param format [String, #to_s, nil]
@@ -178,7 +191,7 @@ module CZMQ
       end
 
       # Get value for config item into a string value; leading slash is optional
-      # and ignored.                                                            
+      # and ignored.
       #
       # @param path [String, #to_s, nil]
       # @param default_value [String, #to_s, nil]
@@ -201,10 +214,10 @@ module CZMQ
         result
       end
 
-      # Set new value for config item. The new value may be a string, a printf  
-      # format, or NULL. Note that if string may possibly contain '%', or if it 
+      # Set new value for config item. The new value may be a string, a printf
+      # format, or NULL. Note that if string may possibly contain '%', or if it
       # comes from an insecure source, you must use '%s' as the format, followed
-      # by the string.                                                          
+      # by the string.
       #
       # @param format [String, #to_s, nil]
       # @param args [Array<Object>] see https://github.com/ffi/ffi/wiki/examples#using-varargs
@@ -264,7 +277,7 @@ module CZMQ
       end
 
       # Execute a callback for each config item in the tree; returns zero if
-      # successful, else -1.                                                
+      # successful, else -1.
       #
       # @param handler [::FFI::Pointer, #to_ptr]
       # @param arg [::FFI::Pointer, #to_ptr]
@@ -278,7 +291,7 @@ module CZMQ
 
       # Add comment to config item before saving to disk. You can add as many
       # comment lines as you like. If you use a null format, all comments are
-      # deleted.                                                             
+      # deleted.
       #
       # @param format [String, #to_s, nil]
       # @param args [Array<Object>] see https://github.com/ffi/ffi/wiki/examples#using-varargs
@@ -302,7 +315,7 @@ module CZMQ
       end
 
       # Save a config tree to a specified ZPL text file, where a filename
-      # "-" means dump to standard output.                               
+      # "-" means dump to standard output.
       #
       # @param filename [String, #to_s, nil]
       # @return [Integer]
@@ -314,7 +327,7 @@ module CZMQ
       end
 
       # Equivalent to zconfig_save, taking a format string instead of a fixed
-      # filename.                                                            
+      # filename.
       #
       # @param format [String, #to_s, nil]
       # @param args [Array<Object>] see https://github.com/ffi/ffi/wiki/examples#using-varargs
@@ -337,8 +350,8 @@ module CZMQ
       end
 
       # Reload config tree from same file that it was previously loaded from.
-      # Returns 0 if OK, -1 if there was an error (and then does not change  
-      # existing data).                                                      
+      # Returns 0 if OK, -1 if there was an error (and then does not change
+      # existing data).
       #
       # @param self_p [#__ptr_give_ref]
       # @return [Integer]
@@ -392,13 +405,33 @@ module CZMQ
       end
 
       # Return true if a configuration tree was loaded from a file and that
-      # file has changed in since the tree was loaded.                     
+      # file has changed in since the tree was loaded.
       #
       # @return [Boolean]
       def has_changed()
         raise DestroyedError unless @ptr
         self_p = @ptr
         result = ::CZMQ::FFI.zconfig_has_changed(self_p)
+        result
+      end
+
+      # Destroy subtree (all children)
+      #
+      # @return [void]
+      def remove_subtree()
+        raise DestroyedError unless @ptr
+        self_p = @ptr
+        result = ::CZMQ::FFI.zconfig_remove_subtree(self_p)
+        result
+      end
+
+      # Destroy node and subtree (all children)
+      #
+      # @param self_p [#__ptr_give_ref]
+      # @return [void]
+      def self.remove(self_p)
+        self_p = self_p.__ptr_give_ref
+        result = ::CZMQ::FFI.zconfig_remove(self_p)
         result
       end
 
