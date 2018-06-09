@@ -567,7 +567,7 @@ zproxy_test (bool verbose)
     proxy = zactor_new (zproxy, NULL);
     assert (proxy);
 
-#ifdef  WIN32
+#if defined(WIN32) || defined(ANDROID)
 	sink = zsock_new_sub(">inproc://backend", "whatever");
 #else
     // vagrant vms don't like using shared storage for ipc pipes..
@@ -578,7 +578,7 @@ zproxy_test (bool verbose)
 #endif //  WIN32
 	assert (sink);
 
-#ifdef WIN32
+#if defined(WIN32) || defined(ANDROID)
 	zstr_sendx (proxy, "BACKEND", "XPUB", "inproc://backend", NULL);
 #else
     // vagrant vms don't like using shared storage for ipc pipes..

@@ -1004,7 +1004,7 @@ zproc_test (bool verbose)
     //  variable file contains path to zsp executable:
     //  char *file = "path/to/zsp";
 
-#if defined (__WINDOWS__)
+#if defined (__WINDOWS__) 
     printf ("Very limited (on Windows) ");
     {
         zsys_init ();

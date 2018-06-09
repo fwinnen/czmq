@@ -117,6 +117,11 @@ if (CYGWIN)
     set(MORE_LIBRARIES)
 endif()
 
+if (ANDROID)
+    list(APPEND MORE_LIBRARIES -llog)
+    ADD_DEFINITIONS(-DCZMQ_HAVE_ANDROID)
+endif()
+
 list(APPEND CMAKE_MODULE_PATH "${SOURCE_DIR}")
 set(OPTIONAL_LIBRARIES)
 
@@ -125,6 +130,12 @@ set(OPTIONAL_LIBRARIES)
 ########################################################################
 hunter_add_package(ZeroMQ)
 find_package(ZeroMQ CONFIG REQUIRED)
+IF (ZeroMQ_FOUND)
+    include_directories($<TARGET_PROPERTY:ZeroMQ::libzmq-static,INTERFACE_INCLUDE_DIRECTORIES>)
+    set(pkg_config_libs_private "${pkg_config_libs_private} -lzmq")
+ELSE (ZeroMQ_FOUND)
+    message( FATAL_ERROR "libzmq not found." )
+ENDIF (ZeroMQ_FOUND)
 
 ########################################################################
 # UUID dependency
@@ -290,8 +301,12 @@ ENDIF (ENABLE_DRAFTS)
 source_group("Source Files" FILES ${czmq_sources})
 
 
-option(CZMQ_BUILD_SHARED "Whether or not to build the shared object" OFF)
+option(CZMQ_BUILD_SHARED "Whether or not to build the shared object" ON)
 option(CZMQ_BUILD_STATIC "Whether or not to build the static archive" ON)
+
+if (ANDROID)
+    set(CZMQ_BUILD_SHARED OFF)
+endif()
 
 if (NOT CZMQ_BUILD_SHARED AND NOT CZMQ_BUILD_STATIC)
   message(FATAL_ERROR "Neither static nor shared library build enabled")
@@ -302,7 +317,6 @@ IF (NOT MSVC)
   # only on *nix, as Windows needs different preprocessor defines in static builds
   add_library (czmq_objects OBJECT ${czmq_sources})
   set_property(TARGET czmq_objects PROPERTY POSITION_INDEPENDENT_CODE ON)
-  target_include_directories(czmq_objects PRIVATE $<INTERFACE_INCLUDE_DIRECTORIES:ZeroMQ::libzmq-static>)
 ENDIF (NOT MSVC)
 
 # shared
