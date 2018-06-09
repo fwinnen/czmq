@@ -440,6 +440,7 @@ write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/czmqConfigVersion.c
                                  VERSION ${CZMQ_VERSION}
                                  COMPATIBILITY AnyNewerVersion)
 install(EXPORT czmq-targets
+        NAMESPACE "${PROJECT_NAME}::"
         FILE czmqTargets.cmake
         DESTINATION ${CMAKECONFIG_INSTALL_DIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/czmqConfig.cmake
