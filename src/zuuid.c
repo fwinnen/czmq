@@ -47,7 +47,23 @@ zuuid_new (void)
     assert (sizeof (uuid) == ZUUID_LEN);
     UuidCreate (&uuid);
     zuuid_set (self, (byte *) &uuid);
-#elif defined (__UTYPE_ANDROID) || !defined (HAVE_UUID)
+#elif defined (HAVE_UUID)
+    uuid_t uuid;
+    assert (sizeof (uuid) == ZUUID_LEN);
+    uuid_generate (uuid);
+    zuuid_set (self, (byte *) uuid);
+#elif defined (__UTYPE_OPENBSD) || defined (__UTYPE_FREEBSD) || defined (__UTYPE_NETBSD)
+    uuid_t uuid;
+    uint32_t status = 0;
+    uuid_create (&uuid, &status);
+    if (status != uuid_s_ok) {
+        zuuid_destroy (&self);
+        return NULL;
+    }
+    byte buffer [ZUUID_LEN];
+    uuid_enc_be (&buffer, &uuid);
+    zuuid_set (self, buffer);
+#else
     //  No UUID system calls, so generate a random string
     byte uuid [ZUUID_LEN];
 
@@ -64,24 +80,6 @@ zuuid_new (void)
         zsys_error (strerror (errno));
         assert (false);
     }
-#elif defined (__UTYPE_OPENBSD) || defined (__UTYPE_FREEBSD) || defined (__UTYPE_NETBSD)
-    uuid_t uuid;
-    uint32_t status = 0;
-    uuid_create (&uuid, &status);
-    if (status != uuid_s_ok) {
-        zuuid_destroy (&self);
-        return NULL;
-    }
-    byte buffer [ZUUID_LEN];
-    uuid_enc_be (&buffer, &uuid);
-    zuuid_set (self, buffer);
-#elif defined (__UTYPE_LINUX) || defined (__UTYPE_OSX) || defined (__UTYPE_GNU)
-    uuid_t uuid;
-    assert (sizeof (uuid) == ZUUID_LEN);
-    uuid_generate (uuid);
-    zuuid_set (self, (byte *) uuid);
-#else
-#   error "Unknow UNIX TYPE"
 #endif
     return self;
 }
@@ -96,8 +94,8 @@ zuuid_destroy (zuuid_t **self_p)
     assert (self_p);
     if (*self_p) {
         zuuid_t *self = *self_p;
-        free (self->str_canonical);
-        free (self);
+        freen (self->str_canonical);
+        freen (self);
         *self_p = NULL;
     }
 }
@@ -215,15 +213,16 @@ zuuid_str_canonical (zuuid_t *self)
     if (!self->str_canonical)
         self->str_canonical = (char *) zmalloc (8 + 4 + 4 + 4 + 12 + 5);
     *self->str_canonical = 0;
-    strncat (self->str_canonical, self->str, 8);
-    strcat  (self->str_canonical, "-");
-    strncat (self->str_canonical, self->str + 8, 4);
-    strcat  (self->str_canonical, "-");
-    strncat (self->str_canonical, self->str + 12, 4);
-    strcat  (self->str_canonical, "-");
-    strncat (self->str_canonical, self->str + 16, 4);
-    strcat  (self->str_canonical, "-");
-    strncat (self->str_canonical, self->str + 20, 12);
+    memcpy (self->str_canonical, self->str, 8);
+    self->str_canonical[8] = '-';
+    memcpy (self->str_canonical + 9, self->str + 8, 4);
+    self->str_canonical[13] = '-';
+    memcpy (self->str_canonical + 14, self->str + 12, 4);
+    self->str_canonical[18] = '-';
+    memcpy (self->str_canonical + 19, self->str + 16, 4);
+    self->str_canonical[23] = '-';
+    memcpy (self->str_canonical + 24, self->str + 20, 12);
+    self->str_canonical[36] = '\0';
 
     int char_nbr;
     for (char_nbr = 0; char_nbr < 36; char_nbr++)
@@ -336,6 +335,10 @@ zuuid_test (bool verbose)
 
     zuuid_destroy (&uuid);
     zuuid_destroy (&copy);
+
+#if defined (__WINDOWS__)
+    zsys_shutdown();
+#endif
     //  @end
 
     printf ("OK\n");

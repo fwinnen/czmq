@@ -27,6 +27,14 @@
         Destroy a config item and all its children
     </destructor>
 
+    <method name = "dup" state = "draft">
+        Create copy of zconfig, caller MUST free the value
+        Create copy of config, as new zconfig object. Returns a fresh zconfig_t
+        object. If config is null, or memory was exhausted, returns null.
+        <return type = "zconfig" fresh = "1" />
+    </method>
+
+
     <method name = "name">
         Return name of config item
         <return type = "string" mutable = "1" />
@@ -178,6 +186,15 @@
         Return true if a configuration tree was loaded from a file and that
         file has changed in since the tree was loaded.
         <return type = "boolean" />
+    </method>
+
+    <method name = "remove_subtree" state = "draft">
+        Destroy subtree (all children)
+    </method>
+
+    <method name = "remove" singleton = "1" state = "draft">
+        Destroy node and subtree (all children)
+        <argument name = "self_p" type = "zconfig" by_reference = "1" />
     </method>
 
     <method name = "fprint">
