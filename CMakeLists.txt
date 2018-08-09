@@ -304,7 +304,7 @@ source_group("Source Files" FILES ${czmq_sources})
 option(CZMQ_BUILD_SHARED "Whether or not to build the shared object" ON)
 option(CZMQ_BUILD_STATIC "Whether or not to build the static archive" ON)
 
-if (ANDROID)
+if (ANDROID OR IOS)
     set(CZMQ_BUILD_SHARED OFF)
 endif()
 
@@ -312,12 +312,12 @@ if (NOT CZMQ_BUILD_SHARED AND NOT CZMQ_BUILD_STATIC)
   message(FATAL_ERROR "Neither static nor shared library build enabled")
 endif()
 
-IF (NOT MSVC)
+IF (NOT MSVC AND NOT IOS)
   # avoid building everything twice for shared + static
   # only on *nix, as Windows needs different preprocessor defines in static builds
   add_library (czmq_objects OBJECT ${czmq_sources})
   set_property(TARGET czmq_objects PROPERTY POSITION_INDEPENDENT_CODE ON)
-ENDIF (NOT MSVC)
+ENDIF (NOT MSVC AND NOT IOS)
 
 # shared
 if (CZMQ_BUILD_SHARED)
@@ -357,11 +357,11 @@ endif()
 
 # static
 if (CZMQ_BUILD_STATIC)
-  IF (MSVC)
+  IF (MSVC OR IOS)
     add_library(czmq-static STATIC ${czmq_sources})
-  ELSE (MSVC)
+  ELSE (MSVC OR IOS)
     add_library(czmq-static STATIC $<TARGET_OBJECTS:czmq_objects>)
-  ENDIF (MSVC)
+  ENDIF (MSVC OR IOS)
 
   set_target_properties(czmq-static PROPERTIES
     PUBLIC_HEADER "${public_headers}"
@@ -450,90 +450,91 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/czmqConfig.cmake
 ########################################################################
 # executables
 ########################################################################
-add_executable(
-    zmakecert
-    "${SOURCE_DIR}/src/zmakecert.c"
-)
-if (TARGET czmq)
-target_link_libraries(
-    zmakecert
-    czmq
-    ${LIBZMQ_TARGET}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-if (NOT TARGET czmq AND TARGET czmq-static)
-target_link_libraries(
-    zmakecert
-    czmq-static
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-install(TARGETS zmakecert
-    RUNTIME DESTINATION bin
-)
-add_executable(
-    zsp
-    "${SOURCE_DIR}/src/zsp.c"
-)
-if (TARGET czmq)
-target_link_libraries(
-    zsp
-    czmq
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-if (NOT TARGET czmq AND TARGET czmq-static)
-target_link_libraries(
-    zsp
-    czmq-static
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-add_executable(
-    test_randof
-    "${SOURCE_DIR}/src/test_randof.c"
-)
-if (TARGET czmq)
-target_link_libraries(
-    test_randof
-    czmq
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-if (NOT TARGET czmq AND TARGET czmq-static)
-target_link_libraries(
-    test_randof
-    czmq-static
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-add_executable(
-    czmq_selftest
-    "${SOURCE_DIR}/src/czmq_selftest.c"
-)
-if (TARGET czmq)
-target_link_libraries(
-    czmq_selftest
-    czmq
-    ${LIBZMQ_TARGET}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-if (NOT TARGET czmq AND TARGET czmq-static)
-target_link_libraries(
-    czmq_selftest
-    czmq-static
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-
+if(NOT IOS)
+    add_executable(
+        zmakecert
+        "${SOURCE_DIR}/src/zmakecert.c"
+    )
+    if (TARGET czmq)
+    target_link_libraries(
+        zmakecert
+        czmq
+        ${LIBZMQ_TARGET}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    if (NOT TARGET czmq AND TARGET czmq-static)
+    target_link_libraries(
+        zmakecert
+        czmq-static
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    install(TARGETS zmakecert
+        RUNTIME DESTINATION bin
+    )
+    add_executable(
+        zsp
+        "${SOURCE_DIR}/src/zsp.c"
+    )
+    if (TARGET czmq)
+    target_link_libraries(
+        zsp
+        czmq
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    if (NOT TARGET czmq AND TARGET czmq-static)
+    target_link_libraries(
+        zsp
+        czmq-static
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    add_executable(
+        test_randof
+        "${SOURCE_DIR}/src/test_randof.c"
+    )
+    if (TARGET czmq)
+    target_link_libraries(
+        test_randof
+        czmq
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    if (NOT TARGET czmq AND TARGET czmq-static)
+    target_link_libraries(
+        test_randof
+        czmq-static
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    add_executable(
+        czmq_selftest
+        "${SOURCE_DIR}/src/czmq_selftest.c"
+    )
+    if (TARGET czmq)
+    target_link_libraries(
+        czmq_selftest
+        czmq
+        ${LIBZMQ_TARGET}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    if (NOT TARGET czmq AND TARGET czmq-static)
+    target_link_libraries(
+        czmq_selftest
+        czmq-static
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+endif(NOT IOS)
 ########################################################################
 # tests
 ########################################################################
