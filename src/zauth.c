@@ -589,6 +589,9 @@ void
 zauth_test (bool verbose)
 {
     printf (" * zauth: ");
+#if defined(UWP)
+    printf ("ignored\n");
+#else
 #if (ZMQ_VERSION_MAJOR == 4)
     if (verbose)
         printf ("\n");
@@ -818,4 +821,5 @@ zauth_test (bool verbose)
 
     //  @end
     printf ("OK\n");
+#endif
 }

@@ -41,7 +41,13 @@ zuuid_new (void)
     zuuid_t *self = (zuuid_t *) zmalloc (sizeof (zuuid_t));
     assert (self);
 
-#if defined (__WINDOWS__)
+#if defined (UWP)
+    byte uuid[ZUUID_LEN];
+    for (int i = 0; i < ZUUID_LEN; ++i) {
+        uuid[i] = randof (UINT8_MAX);
+    }
+    zuuid_set (self, uuid);
+#elif defined (__WINDOWS__)
     //  Windows always has UUID support
     UUID uuid;
     assert (sizeof (uuid) == ZUUID_LEN);

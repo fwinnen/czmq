@@ -460,6 +460,9 @@ void
 zcert_test (bool verbose)
 {
     printf (" * zcert: ");
+#if defined(UWP)
+    printf ("ignored\n");
+#else
     //  @selftest
 
     const char *SELFTEST_DIR_RW = "src/selftest-rw";
@@ -551,7 +554,9 @@ zcert_test (bool verbose)
 #if defined (__WINDOWS__)
     zsys_shutdown();
 #endif
+
     //  @end
 
     printf ("OK\n");
+#endif
 }

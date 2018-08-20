@@ -700,6 +700,10 @@ void
 zfile_test (bool verbose)
 {
     printf (" * zfile: ");
+#if defined(UWP)
+    printf ("ignored\n");
+#else
+
 
     //  @selftest
 
@@ -933,4 +937,5 @@ zfile_test (bool verbose)
     //  @end
 
     printf ("OK\n");
+#endif
 }

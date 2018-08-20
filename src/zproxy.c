@@ -707,6 +707,8 @@ zproxy_test (bool verbose)
 
     //  Try PLAIN authentication
 
+#if !defined(UWP)
+
     //  Test negative case (no server-side passwords defined)
     zstr_sendx (proxy, "PLAIN", "FRONTEND", NULL);
     zsock_wait (proxy);
@@ -754,6 +756,7 @@ zproxy_test (bool verbose)
     success = s_can_connect (&proxy, &faucet, &sink, frontend, backend, verbose,
         false);
     assert (!success);
+#endif
 
     if (zsys_has_curve ()) {
         //  We'll create two new certificates and save the client public

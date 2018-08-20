@@ -24,6 +24,10 @@
 
 // For getcwd() variants
 #if (defined (WIN32))
+#if (defined (UWP))
+#include <processthreadsapi.h>
+#define getpid() GetCurrentProcessId()
+#endif
 # include <direct.h>
 #else
 # include <unistd.h>
@@ -852,7 +856,7 @@ zsys_dir_change (const char *pathname)
     assert (pathname);
 #if (defined (__UNIX__))
     return chdir (pathname);
-#elif (defined (__WINDOWS__))
+#elif (defined (__WINDOWS__) && !defined(UWP))
     return !SetCurrentDirectoryA (pathname);
 #endif
     return -1;              //  Not implemented
@@ -1093,7 +1097,7 @@ zsys_udp_recv (SOCKET udpsock, char *peername, int peerlen)
     //  interface name when parsing a link-local IPv6 address. These addresses
     //  cannot be used without the interface, so we must append it manually.
     //  On Windows, if_indextoname is only available from Vista.
-#if !defined (__WINDOWS__) || (_WIN32_WINNT >= 0x0600)
+#if ((!defined (__WINDOWS__) || (_WIN32_WINNT >= 0x0600)) && !defined(UWP))
     if (address6.sin6_family == AF_INET6 &&
             IN6_IS_ADDR_LINKLOCAL (&address6.sin6_addr) &&
             !strchr (peername, '%')) {
@@ -2069,6 +2073,9 @@ void
 zsys_test (bool verbose)
 {
     printf (" * zsys: ");
+#if defined(UWP)
+    printf ("ignored\n");
+#else
     if (verbose)
         printf ("\n");
 
@@ -2303,4 +2310,5 @@ zsys_test (bool verbose)
 #endif
 
     printf ("OK\n");
+#endif
 }

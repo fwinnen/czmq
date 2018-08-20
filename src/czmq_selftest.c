@@ -201,7 +201,7 @@ main (int argc, char **argv)
         }
         else {
             printf ("Unknown option: %s\n", argv [argn]);
-            return 1;
+            //return 1;
         }
     }
 
@@ -218,8 +218,12 @@ main (int argc, char **argv)
         else
             czmq_private_selftest (verbose, test->subtest);
 #endif // CZMQ_BUILD_DRAFT_API
-    }
-    else
+    } else
+        verbose = true;
+
+        #if defined(UWP)
+            zsys_dir_change ("C:/Users/Fabian/");
+        #endif
         test_runall (verbose);
 
     return 0;

@@ -1032,6 +1032,7 @@ zmsg_test (bool verbose)
     assert (zmsg_content_size (msg) == 60);
 
     //  Save to a file, read back
+#if !defined(UWP)
     FILE *file = fopen ("zmsg.test", "w");
     assert (file);
     rc = zmsg_save (msg, file);
@@ -1051,6 +1052,7 @@ zmsg_test (bool verbose)
     remove ("zmsg.test");
     assert (zmsg_size (msg) == 10);
     assert (zmsg_content_size (msg) == 60);
+#endif
 
     //  Remove all frames except first and last
     int frame_nbr;

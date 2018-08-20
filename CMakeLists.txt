@@ -10,8 +10,9 @@ cmake_minimum_required(VERSION 3.2)
 
 include("cmake/HunterGate.cmake")
 HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.22.8.tar.gz"
-    SHA1 "e7fe3f0b61b1b4844d440ec0a02ac73ddc5f0bb2"
+    URL "file://C:/workspace/hunter/hunter-v0.21.1-p3.tar.gz"
+    SHA1 "5797de088ce97043e80609a19b3f143dc495df38"
+    FILEPATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Hunter/config.cmake
 )
 
 project(czmq VERSION "4.2.0")
@@ -450,184 +451,188 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/czmqConfig.cmake
 ########################################################################
 # executables
 ########################################################################
-add_executable(
-    zmakecert
-    "${SOURCE_DIR}/src/zmakecert.c"
-)
-if (TARGET czmq)
-target_link_libraries(
-    zmakecert
-    czmq
-    ${LIBZMQ_TARGET}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-if (NOT TARGET czmq AND TARGET czmq-static)
-target_link_libraries(
-    zmakecert
-    czmq-static
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-install(TARGETS zmakecert
-    RUNTIME DESTINATION bin
-)
-add_executable(
-    zsp
-    "${SOURCE_DIR}/src/zsp.c"
-)
-if (TARGET czmq)
-target_link_libraries(
-    zsp
-    czmq
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-if (NOT TARGET czmq AND TARGET czmq-static)
-target_link_libraries(
-    zsp
-    czmq-static
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-add_executable(
-    test_randof
-    "${SOURCE_DIR}/src/test_randof.c"
-)
-if (TARGET czmq)
-target_link_libraries(
-    test_randof
-    czmq
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-if (NOT TARGET czmq AND TARGET czmq-static)
-target_link_libraries(
-    test_randof
-    czmq-static
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-add_executable(
-    czmq_selftest
-    "${SOURCE_DIR}/src/czmq_selftest.c"
-)
-if (TARGET czmq)
-target_link_libraries(
-    czmq_selftest
-    czmq
-    ${LIBZMQ_TARGET}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-if (NOT TARGET czmq AND TARGET czmq-static)
-target_link_libraries(
-    czmq_selftest
-    czmq-static
-    ${LIBZMQ_LIBRARIES}
-    ${OPTIONAL_LIBRARIES}
-)
-endif()
-
+option(CZMQ_BUILD_EXECUTABLES "Whether to build executables" ON)
+if(CZMQ_BUILD_EXECUTABLES)
+    add_executable(
+        zmakecert
+        "${SOURCE_DIR}/src/zmakecert.c"
+    )
+    if (TARGET czmq)
+    target_link_libraries(
+        zmakecert
+        czmq
+        ${LIBZMQ_TARGET}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    if (NOT TARGET czmq AND TARGET czmq-static)
+    target_link_libraries(
+        zmakecert
+        czmq-static
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    install(TARGETS zmakecert
+        RUNTIME DESTINATION bin
+    )
+    add_executable(
+        zsp
+        "${SOURCE_DIR}/src/zsp.c"
+    )
+    if (TARGET czmq)
+    target_link_libraries(
+        zsp
+        czmq
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    if (NOT TARGET czmq AND TARGET czmq-static)
+    target_link_libraries(
+        zsp
+        czmq-static
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    add_executable(
+        test_randof
+        "${SOURCE_DIR}/src/test_randof.c"
+    )
+    if (TARGET czmq)
+    target_link_libraries(
+        test_randof
+        czmq
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    if (NOT TARGET czmq AND TARGET czmq-static)
+    target_link_libraries(
+        test_randof
+        czmq-static
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    add_executable(
+        czmq_selftest
+        "${SOURCE_DIR}/src/czmq_selftest.c"
+    )
+    if (TARGET czmq)
+    target_link_libraries(
+        czmq_selftest
+        czmq
+        ${LIBZMQ_TARGET}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+    if (NOT TARGET czmq AND TARGET czmq-static)
+    target_link_libraries(
+        czmq_selftest
+        czmq-static
+        ${LIBZMQ_LIBRARIES}
+        ${OPTIONAL_LIBRARIES}
+    )
+    endif()
+endif(CZMQ_BUILD_EXECUTABLES)
 ########################################################################
 # tests
 ########################################################################
-set(CLASSTEST_TIMEOUT 60 CACHE STRING "Timeout of the selftest of a class")
-set(TOTAL_TIMEOUT 600 CACHE STRING "Timout of the total testsuite")
+option(CZMQ_BUILD_TESTS "Whether to build tests" ON)
+if(CZMQ_BUILD_TESTS)
+    set(CLASSTEST_TIMEOUT 60 CACHE STRING "Timeout of the selftest of a class")
+    set(TOTAL_TIMEOUT 600 CACHE STRING "Timout of the total testsuite")
 
-if(UNIX)
-    find_program(MEMORYCHECK_COMMAND valgrind)
-    set(MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --show-reachable=yes
-                                     --error-exitcode=1
-                                     --suppressions=src/.valgrind.supp")
-endif()
+    if(UNIX)
+        find_program(MEMORYCHECK_COMMAND valgrind)
+        set(MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --show-reachable=yes
+                                        --error-exitcode=1
+                                        --suppressions=src/.valgrind.supp")
+    endif()
 
-set(TEST_CLASSES
-    zactor
-    zarmour
-    zcert
-    zcertstore
-    zchunk
-    zclock
-    zconfig
-    zdigest
-    zdir
-    zdir_patch
-    zfile
-    zframe
-    zhash
-    zhashx
-    ziflist
-    zlist
-    zlistx
-    zloop
-    zmsg
-    zpoller
-    zsock
-    zstr
-    zsys
-    zuuid
-    zauth
-    zbeacon
-    zgossip
-    zmonitor
-    zproxy
-    zrex
-)
-
-IF (ENABLE_DRAFTS)
-    list (APPEND TEST_CLASSES
-    zargs
-    zproc
-    ztimerset
-    ztrie
+    set(TEST_CLASSES
+        zactor
+        zarmour
+        zcert
+        zcertstore
+        zchunk
+        zclock
+        zconfig
+        zdigest
+        zdir
+        zdir_patch
+        zfile
+        zframe
+        zhash
+        zhashx
+        ziflist
+        zlist
+        zlistx
+        zloop
+        zmsg
+        zpoller
+        zsock
+        zstr
+        zsys
+        zuuid
+        zauth
+        zbeacon
+        zgossip
+        zmonitor
+        zproxy
+        zrex
     )
-ENDIF (ENABLE_DRAFTS)
 
-IF (ENABLE_DRAFTS)
-    list (APPEND TEST_CLASSES
-    private_classes
+    IF (ENABLE_DRAFTS)
+        list (APPEND TEST_CLASSES
+        zargs
+        zproc
+        ztimerset
+        ztrie
+        )
+    ENDIF (ENABLE_DRAFTS)
+
+    IF (ENABLE_DRAFTS)
+        list (APPEND TEST_CLASSES
+        private_classes
+        )
+    ENDIF (ENABLE_DRAFTS)
+
+
+    add_custom_target(
+        copy-selftest-ro ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/selftest-ro ${CMAKE_BINARY_DIR}/src/selftest-ro
     )
-ENDIF (ENABLE_DRAFTS)
 
-
-add_custom_target(
-    copy-selftest-ro ALL
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/selftest-ro ${CMAKE_BINARY_DIR}/src/selftest-ro
-)
-
-add_custom_target(
-    make-selftest-rw ALL
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/selftest-rw
-)
-
-set_directory_properties(
-    PROPERTIES
-    ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_BINARY_DIR}/src/selftest-ro;${CMAKE_BINARY_DIR}/src/selftest-rw"
-)
-
-foreach(TEST_CLASS ${TEST_CLASSES})
-    add_test(
-        NAME ${TEST_CLASS}
-        COMMAND czmq_selftest --continue --verbose --test ${TEST_CLASS}
+    add_custom_target(
+        make-selftest-rw ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/selftest-rw
     )
-    set_tests_properties(
-        ${TEST_CLASS}
-        PROPERTIES TIMEOUT ${CLASSTEST_TIMEOUT}
-    )
-    set_tests_properties(
-        ${TEST_CLASS}
-        PROPERTIES DEPENDS "copy-selftest-ro;make-selftest-rw"
-    )
-endforeach(TEST_CLASS)
 
-include(CTest)
+    set_directory_properties(
+        PROPERTIES
+        ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_BINARY_DIR}/src/selftest-ro;${CMAKE_BINARY_DIR}/src/selftest-rw"
+    )
 
+    foreach(TEST_CLASS ${TEST_CLASSES})
+        add_test(
+            NAME ${TEST_CLASS}
+            COMMAND czmq_selftest --continue --verbose --test ${TEST_CLASS}
+        )
+        set_tests_properties(
+            ${TEST_CLASS}
+            PROPERTIES TIMEOUT ${CLASSTEST_TIMEOUT}
+        )
+        set_tests_properties(
+            ${TEST_CLASS}
+            PROPERTIES DEPENDS "copy-selftest-ro;make-selftest-rw"
+        )
+    endforeach(TEST_CLASS)
+
+    include(CTest)
+endif(CZMQ_BUILD_TESTS)
 ########################################################################
 # cleanup
 ########################################################################

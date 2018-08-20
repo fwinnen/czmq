@@ -784,6 +784,10 @@ void
 zhash_test (bool verbose)
 {
     printf (" * zhash: ");
+#if defined(UWP)
+    printf ("ignored\n");
+#else
+
 
     //  @selftest
     zhash_t *hash = zhash_new ();
@@ -953,4 +957,5 @@ zhash_test (bool verbose)
     //  @end
 
     printf ("OK\n");
+#endif
 }

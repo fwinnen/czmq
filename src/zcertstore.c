@@ -312,6 +312,10 @@ void
 zcertstore_test (bool verbose)
 {
     printf (" * zcertstore: ");
+
+ #if defined(UWP)
+    printf ("ignored\n");
+ #else
     if (verbose)
         printf ("\n");
 
@@ -404,4 +408,5 @@ zcertstore_test (bool verbose)
 #endif
     //  @end
     printf ("OK\n");
+#endif
 }

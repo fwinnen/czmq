@@ -161,6 +161,8 @@ s_self_prepare_udp (self_t *self)
         int idx = -1;
         while (name) {
             idx++;
+
+            #if !defined(UWP) // ipv6 unsupported for UWP
             if (idx == if_number &&
                     ((ziflist_is_ipv6 (iflist) && zsys_ipv6 ()) ||
                             (!ziflist_is_ipv6 (iflist) && !zsys_ipv6 ()))) {
@@ -172,7 +174,6 @@ s_self_prepare_udp (self_t *self)
                 rc = getaddrinfo (ziflist_broadcast (iflist), self->port_nbr,
                         &hint, &send_to);
                 assert (rc == 0);
-                if_index = if_nametoindex (name);
 
                 if (self->verbose)
                     zsys_info ("zbeacon: interface=%s address=%s broadcast=%s",
@@ -180,10 +181,12 @@ s_self_prepare_udp (self_t *self)
                 found_iface = 1;
                 break;      //  iface is known, so allow it
             }
+            #endif
             name = ziflist_next (iflist);
         }
         ziflist_destroy (&iflist);
     }
+    #if !defined(UWP) // ipv6 unsupported for UWP
     else if (zsys_ipv6 () && strneq("", zsys_ipv6_address ()) && strneq (iface, "")) {
         rc = getaddrinfo (zsys_ipv6_address (), self->port_nbr,
                 &hint, &bind_to);
@@ -236,6 +239,7 @@ s_self_prepare_udp (self_t *self)
         }
         ziflist_destroy (&iflist);
     }
+    #endif
     if (found_iface) {
         inaddr_storage_t bind_address;
 

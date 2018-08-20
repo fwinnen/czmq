@@ -1121,6 +1121,10 @@ void
 zhashx_test (bool verbose)
 {
     printf (" * zhashx: ");
+#if defined(UWP)
+    printf ("ignored\n");
+#else
+
 
     //  @selftest
     zhashx_t *hash = zhashx_new ();
@@ -1366,4 +1370,5 @@ zhashx_test (bool verbose)
     //  @end
 
     printf ("OK\n");
+#endif
 }

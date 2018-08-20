@@ -944,6 +944,10 @@ void
 zdir_test (bool verbose)
 {
     printf (" * zdir: ");
+#if defined(UWP)
+    printf ("ignored\n");
+#else
+
 
     //  @selftest
 
@@ -1151,4 +1155,5 @@ zdir_test (bool verbose)
     //  @end
 
     printf ("OK\n");
+#endif
 }
